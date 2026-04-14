@@ -1,0 +1,36 @@
+POST http://localhost:3000/cadastro
+Content-Type: application/json
+
+{
+    "email": "joaobaptista@gmail.com",
+    "senha": "antecessordejesus"
+}
+
+###
+
+GET http://localhost:3000/status
+
+###
+
+POST http://localhost:3000/cadastro
+Content-Type: application/json
+
+{
+    "email": "allanpereira@gmail.com",
+    "senha": "entusiastadeti"
+}
+
+###
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email": "joaobaptista@gmail.com",
+    "senha": "antecessordejesus"
+}
+
+###
+
+DELETE http://localhost:3000/delete/5
+
