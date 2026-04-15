@@ -64,7 +64,7 @@ app.post('/login', async (req, res) => {
             { expiresIn: '1d' } // O token vale por 1 dia
         );
 
-        res.json({
+        res.status(201).json({
             mensagem: "Login realizado com sucesso!",
             token: token
         });

@@ -2,31 +2,46 @@ import { useState } from "react"
 import api from "../services/api"
 import Input from "../components/Input"
 import Button from "../components/Button"
+import { useNavigate } from "react-router-dom"
+import { toast } from "sonner"
 
 function Login() {
     const [email, setEmail] = useState("")
     const [senha, setSenha] = useState("")
 
-    const handleAddTask = async (event) => {
-        event.preventDefault()
+    const navigate = useNavigate();
 
-        console.log("chegou")
+    const handleLogin = async (event) => {
+        try {
+            event.preventDefault()
 
-        if(!email || !senha){
-            alert("Preencha todos os campos")
-            return
+            if(!email || !senha){
+                toast.error("Preencha todos os campos")
+                return
+            }
+
+            await api.post("/login", {
+                email,
+                senha
+            })
+
+            toast.success("Login realizado com sucesso!")
+
+            navigate("/lista-cadastro");
+
+            setEmail('')
+            setSenha('')
+
+        } catch (error) {
+            toast.error("Usuário ou senha incorreto!")
+            setSenha('')
+            setEmail('')
         }
-        console.log(email, senha)
-
-        await api.post("/login", {
-            email,
-            senha
-        })
-
-        console.log("enviou")
-        setEmail('')
-        setSenha('')
     }  
+
+    const handleCadastro = () => {
+        navigate("/cadastro");
+    }
 
     return (
         <>
@@ -35,8 +50,8 @@ function Login() {
                     <h1 className="text-3xl font-bold mb-4 text-shadow-md">Login</h1>
                     <Input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                     <Input placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
-                    <Button onClick={(e) => handleAddTask(e)}>Login</Button>
-                    <p className="text-blue-500 cursor-pointer hover:text-blue-600 transition-colors active:text-blue-700">Não tem uma conta? <a className="hover:underline" href="/">Cadastre-se</a></p>
+                    <Button onClick={(e) => handleLogin(e)}>Login</Button>
+                    <p className="text-blue-500 cursor-pointer hover:text-blue-600 transition-colors active:text-blue-700">Não tem uma conta? <a className="hover:underline" onClick={handleCadastro}>Cadastre-se</a></p>
                 </div>
             </div>
         </>
