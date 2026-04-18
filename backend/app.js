@@ -12,7 +12,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: "https://frontendtela-de-login.onrender.com"
+  origin: "*"
 }));
 
 // Middleware para verificar se o usuário está logado
