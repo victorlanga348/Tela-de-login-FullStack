@@ -12,7 +12,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: "https://seu-frontend.onrender.com " || "http://localhost:3000"
+  origin: "https://frontendtela-de-login.onrender.com"
 }));
 
 // Middleware para verificar se o usuário está logado
