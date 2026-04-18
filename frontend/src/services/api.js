@@ -1,13 +1,13 @@
 import axios from "axios"
 
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "http://localhost:3000 || import.meta.env.VITE_API_URL || "
 })
 
 // MÁGICA: Este código abaixo anexa o token automaticamente em TODA requisição
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');
-    
+
     if (token) {
         // Se houver token, adiciona no cabeçalho Authorization
         config.headers.Authorization = `Bearer ${token}`;
