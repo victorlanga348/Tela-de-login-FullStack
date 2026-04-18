@@ -33,7 +33,10 @@ function verificarToken(req, res, next) {
         
         next(); // Tudo certo, pode continuar para a rota desejada
     } catch (error) {
-        res.status(400).json({ erro: "Token inválido" });
+        res.status(400).json({
+            erro: "Token inválido"
+        });
+        console.error(error);
     }
 }
 
@@ -55,6 +58,7 @@ app.post('/cadastro', async (req, res) => {
         res.status(201).json(novoUsuario);
     } catch (error) {
         res.status(400).json({ erro: "E-mail já cadastrado ou dados inválidos" });
+        console.error(error);
     }
 });
 
@@ -94,22 +98,28 @@ app.post('/login', async (req, res) => {
 
     } catch (error) {
         res.status(500).json({ erro: "Erro ao fazer login" });
+        console.error(error);
     }
 });
 
 // Rota para criar novas tarefas (exige login)
 app.post('/tarefas', verificarToken, async (req, res) => {
-    const { task, description } = req.body;
+    try {
+        const { task, description } = req.body;
 
-    const novaTarefa = await prisma.tarefa.create({
-        data: {
-            task,
-            description,
-            usuarioId: req.usuarioId // Vincula a tarefa ao usuário logado
-        }
-    });
+        const novaTarefa = await prisma.tarefa.create({
+            data: {
+                task,
+                description,
+                usuarioId: req.usuarioId // Vincula a tarefa ao usuário logado
+            }
+        });
 
-    res.json(novaTarefa);
+        res.json(novaTarefa);
+    } catch (error) {
+        res.status(400).json({ erro: "Erro ao criar tarefa" });
+        console.error(error);
+    }
 });
 
 // Rota para buscar todas as tarefas apenas do usuário logado
@@ -127,6 +137,7 @@ app.get('/tarefas', verificarToken, async (req, res) => {
         res.json(tarefas);
     } catch (error) {
         res.status(500).json({ erro: "Erro ao buscar tarefas" });
+        console.error(error);
     }
 });
 
@@ -137,20 +148,26 @@ app.get('/status', async (req, res) => {
         res.json(cadastros);
     } catch (error) {
         res.status(500).json({ erro: "Erro ao buscar cadastros" });
+        console.error(error);
     }
 });
 
 // Read das tarefas de cada usuário
 app.get('/tarefas/:id', async (req, res) => {
-    const { id } = req.params;
+    try{
+        const { id } = req.params;
 
-    const tarefas = await prisma.tarefa.findMany({
-        where: {
-            usuarioId: parseInt(id)
-        }
-    });
+        const tarefas = await prisma.tarefa.findMany({
+            where: {
+                usuarioId: parseInt(id)
+            }
+        });
 
-    res.json(tarefas);
+        res.json(tarefas);
+    } catch (error) {
+        res.status(500).json({ erro: "Erro ao buscar tarefas" });
+        console.error(error);
+    }
 });
 
 // Rota para deletar uma tarefa específica do usuário logado
@@ -176,6 +193,7 @@ app.delete('/tarefas/:id', verificarToken, async (req, res) => {
         res.json({ mensagem: "Tarefa deletada com sucesso" });
     } catch (error) {
         res.status(500).json({ erro: "Erro ao deletar tarefa" });
+        console.error(error);
     }
 });
 
@@ -203,6 +221,7 @@ app.put('/tarefas/:id', verificarToken, async (req, res) => {
         res.json(tarefaAtualizada);
     } catch (error) {
         res.status(500).json({ erro: "Erro ao atualizar tarefa" });
+        console.error(error);
     }
 });
 
@@ -230,6 +249,7 @@ app.patch('/alt-tarefas/:id', verificarToken, async (req, res) => {
         res.json(tarefaAtualizada);
     } catch (error) {
         res.status(500).json({ erro: "Erro ao editar tarefa" });
+        console.error(error);
     }
 });
 
