@@ -114,7 +114,7 @@ app.post('/tarefas', verificarToken, async (req, res) => {
 app.get('/tarefas', verificarToken, async (req, res) => {
     try {
         const tarefas = await prisma.tarefa.findMany({
-            where: { usuarioId: req.usuarioId } // Filtra pelo ID do usuário no token
+            where: { usuarioId: req.usuarioId }, // Filtra pelo ID do usuário no token
         });
         res.json(tarefas);
     } catch (error) {
@@ -195,6 +195,33 @@ app.put('/tarefas/:id', verificarToken, async (req, res) => {
         res.json(tarefaAtualizada);
     } catch (error) {
         res.status(500).json({ erro: "Erro ao atualizar tarefa" });
+    }
+});
+
+// Rota para editar uma tarefa
+app.patch('/alt-tarefas/:id', verificarToken, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { task, description } = req.body;
+
+        // Verifica se o usuário é dono da tarefa antes de atualizar
+        const tarefa = await prisma.tarefa.findUnique({
+            where: { id: parseInt(id) }
+        });
+
+        if (!tarefa || tarefa.usuarioId !== req.usuarioId) {
+            return res.status(403).json({ erro: "Você não tem permissão para editar esta tarefa" });
+        }
+
+        // Atualiza os campos enviados no corpo da requisição
+        const tarefaAtualizada = await prisma.tarefa.update({
+            where: { id: parseInt(id) },
+            data: { task, description }
+        });
+
+        res.json(tarefaAtualizada);
+    } catch (error) {
+        res.status(500).json({ erro: "Erro ao editar tarefa" });
     }
 });
 

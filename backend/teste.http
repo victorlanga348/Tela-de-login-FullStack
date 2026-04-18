@@ -72,7 +72,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/tarefas/11
+GET http://localhost:3000/tarefas/1
 
 
 ### 1. Fazer Login para pegar o Token
@@ -102,4 +102,16 @@ Content-Type: application/json
 {
     "task": "Minha tarefa secreta que só eu vejo",
     "description": "Minha descrição secreta que só eu vejo"
+}
+
+
+###
+
+PATCH http://localhost:3000/tarefas/8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzc2NDUyNDcwLCJleHAiOjE3NzY1Mzg4NzB9.L29A_G1Mnot6WhBZQ1L7hCGC7O0euLJFFs1A24fTYG4
+Content-Type: application/json
+
+{
+    "task": "Tarefa editada",
+    "description": "Descrição editada"
 }

@@ -1,8 +1,10 @@
-import { Trash2, Eye, X, CheckCircle2 } from 'lucide-react'
+import { Trash2, Eye, X, CheckCircle2, SquarePen } from 'lucide-react'
 import { useState } from 'react'
 import api from '../services/api'
+import { useNavigate } from 'react-router-dom'
 
 function Tasks(props) {
+    const navigate = useNavigate()
     // Estado para controlar qual tarefa está sendo exibida no modal de detalhes
     const [selectedTask, setSelectedTask] = useState(null)
 
@@ -19,8 +21,13 @@ function Tasks(props) {
             await api.delete(`/tarefas/${id}`)
             props.onDelete() // Notifica o componente pai para atualizar a lista
         } catch (error) {
-            console.error("Erro ao deletar:", error)
+            toast.error("Erro ao deletar:", error)
         }
+    }
+
+    async function onEditTaskCliked(e, id){
+        e.stopPropagation(); // IMPORTANTE: Impede que o clique na 
+        navigate(`/edit-task/${id}`)
     }
     
     return (
@@ -42,6 +49,12 @@ function Tasks(props) {
                                     </p>
                                 </div>
                                 <div className="flex gap-2">
+                                    <button 
+                                        className="bg-gray-500 text-white px-2 py-1 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors active:bg-gray-700" 
+                                        onClick={(e) => onEditTaskCliked(e, task.id)}
+                                    >
+                                        <SquarePen />
+                                    </button>
                                     <button 
                                         className="bg-blue-500 text-white px-2 py-1 rounded-lg cursor-pointer hover:bg-blue-600 transition-colors active:bg-blue-700" 
                                         onClick={(e) => onSeeDetailsClicked(e, task)}
