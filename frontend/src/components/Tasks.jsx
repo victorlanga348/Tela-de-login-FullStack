@@ -79,7 +79,7 @@ function Tasks(props) {
 
             {selectedTask && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-xl gap-3 w-full max-w-lg relative animate-in fade zoom-in duration-200 w-[350px]">
+                    <div className="bg-white p-6 rounded-lg shadow-xl gap-3 max-w-lg relative animate-in fade zoom-in duration-200 w-[350px]">
                         <button
                             className="absolute top-4 right-4 text-gray-500 cursor-pointer hover:text-gray-700 transition-colors"
                             onClick={() => setSelectedTask(null)}
