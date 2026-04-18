@@ -113,8 +113,14 @@ app.post('/tarefas', verificarToken, async (req, res) => {
 // Rota para buscar todas as tarefas apenas do usuário logado
 app.get('/tarefas', verificarToken, async (req, res) => {
     try {
+        //pegando dia de hoje com a hora atual
+        const dia = new Date()
+        //subtraindo 24 horas
+        dia.setHours(dia.getHours() - 24);
+
         const tarefas = await prisma.tarefa.findMany({
-            where: { usuarioId: req.usuarioId }, // Filtra pelo ID do usuário no token
+            where: { usuarioId: req.usuarioId, createdAt: { gte: dia } },// Filtra pelo ID do usuário no token
+            orderBy: { createdAt: 'desc' } // Organiza as tarefas pela data de criação em ordem decrescente
         });
         res.json(tarefas);
     } catch (error) {

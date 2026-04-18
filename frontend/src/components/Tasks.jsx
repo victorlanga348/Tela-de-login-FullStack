@@ -74,6 +74,7 @@ function Tasks(props) {
                         <p className="text-gray-500 text-center">Nenhuma tarefa encontrada.</p>
                     )}
                 </ul>
+                <p className='text-gray-500 text-center'><span className='font-bold'>NB:</span> As tarefas desaparecem após 24h.</p>
             </div>
 
             {selectedTask && (
