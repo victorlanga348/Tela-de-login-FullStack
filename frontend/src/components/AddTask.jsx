@@ -40,7 +40,7 @@ function AddTask(props) {
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center bg-white p-5 rounded-lg shadow-md gap-3 w-[400px]">
+            <div className="flex flex-col items-center justify-center bg-white p-5 rounded-lg shadow-md gap-3 w-[350px]">
                 <h1 className="text-2xl font-bold">Adicionar Tarefa</h1>
                 <Input
                     type="text"
