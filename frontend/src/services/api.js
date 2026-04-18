@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const api = axios.create({
-    baseURL: "http://localhost:3000 || import.meta.env.VITE_API_URL || "
+    baseURL: "https://tela-de-login-fullstack.onrender.com"
 })
 
 // MÁGICA: Este código abaixo anexa o token automaticamente em TODA requisição
