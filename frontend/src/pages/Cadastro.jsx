@@ -11,28 +11,30 @@ function Cadastro() {
 
     const navigate = useNavigate();
 
-    const handleAddTask = async (event) => {
+    const handleCadastro = async (event) => {
         try {
-            event.preventDefault()  
+            event.preventDefault() // Evita o recarregamento da página
 
             if(!email || !senha){
                 toast.error("Preencha todos os campos")
                 return
             }
 
+            // Envia os dados para a rota de cadastro no backend
             await api.post("/cadastro", {
                 email,
                 senha
             })
 
             toast.success("Cadastro realizado com sucesso!")
+            
+            // Após cadastrar, redireciona automaticamente para a página de login
+            navigate("/");
 
-            setEmail('')
-            setSenha('')
         } catch (error) {
-            toast.error("E-mail já cadastrado!")
+            // Mostra erro se o e-mail já estiver em uso ou houver falha no servidor
+            toast.error(error.response?.data?.erro || "Erro ao cadastrar!");
             setSenha('')
-            setEmail('')
         }
     }  
 
@@ -47,7 +49,7 @@ function Cadastro() {
                     <h1 className="text-3xl font-bold mb-4 text-shadow-md">Cadastro</h1>
                     <Input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                     <Input placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
-                    <Button onClick={(e) => handleAddTask(e)}>Cadastrar</Button>
+                    <Button onClick={(e) => handleCadastro(e)}>Cadastrar</Button>
                     <p className="text-blue-500 cursor-pointer hover:text-blue-600 transition-colors active:text-blue-700">Já tem uma conta? <a className="hover:underline" onClick={handleLogin}>Faça login</a></p>
                 </div>
             </div>

@@ -34,3 +34,72 @@ Content-Type: application/json
 
 DELETE http://localhost:3000/delete/5
 
+
+###
+
+POST http://localhost:3000/tarefas
+Content-Type: application/json
+
+{
+    "texto": "Estudar React",
+    "usuarioId": 6
+}
+
+
+###
+
+GET http://localhost:3000/tarefas/6
+
+###
+
+POST http://localhost:3000/tarefas
+Content-Type: application/json
+
+{
+    "texto": "Estudar Python",
+    "usuarioId": 6
+}
+
+###
+
+POST http://localhost:3000/tarefas
+Content-Type: application/json
+
+{
+    "texto": "Estudar JavaScript",
+    "usuarioId": 11
+}
+
+###
+
+GET http://localhost:3000/tarefas/11
+
+
+### 1. Fazer Login para pegar o Token
+POST http://localhost:3000/cadastro
+Content-Type: application/json
+
+{
+    "email": "victor@teste.com",
+    "senha": "123"
+}
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email": "victor@teste.com",
+    "senha": "123"
+}
+
+
+### 2. Criar Tarefa usando o Token (Copie o token do resultado acima)
+POST http://localhost:3000/tarefas
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzc2NDUyNDcwLCJleHAiOjE3NzY1Mzg4NzB9.L29A_G1Mnot6WhBZQ1L7hCGC7O0euLJFFs1A24fTYG4
+Content-Type: application/json
+
+{
+    "task": "Minha tarefa secreta que só eu vejo",
+    "description": "Minha descrição secreta que só eu vejo"
+}

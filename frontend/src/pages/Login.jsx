@@ -13,29 +13,32 @@ function Login() {
 
     const handleLogin = async (event) => {
         try {
-            event.preventDefault()
+            event.preventDefault() // Evita que a página recarregue ao enviar o formulário
 
             if(!email || !senha){
                 toast.error("Preencha todos os campos")
                 return
             }
 
-            await api.post("/login", {
+            // Faz a requisição de login para o backend
+            const response = await api.post("/login", {
                 email,
                 senha
             })
 
+            // SALVANDO O TOKEN: Guardamos o token JWT no localStorage para usar em outras requisições
+            localStorage.setItem('token', response.data.token);
+            
             toast.success("Login realizado com sucesso!")
-
-            navigate("/lista-cadastro");
-
-            setEmail('')
-            setSenha('')
+            
+            // Redireciona o usuário para a página de tarefas
+            navigate("/lista-tasks");
 
         } catch (error) {
-            toast.error("Usuário ou senha incorreto!")
+            console.error("Erro no login:", error);
+            // Mostra o erro retornado pelo backend ou uma mensagem genérica
+            toast.error(error.response?.data?.erro || "Usuário ou senha incorreto!");
             setSenha('')
-            setEmail('')
         }
     }  
 
