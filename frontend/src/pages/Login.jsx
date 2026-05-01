@@ -21,6 +21,7 @@ function Login() {
             }
 
             // Faz a requisição de login para o backend
+            console.log(email, senha)
             const response = await api.post("/login", {
                 email,
                 senha

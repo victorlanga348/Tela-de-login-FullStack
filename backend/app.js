@@ -24,10 +24,10 @@ function verificarToken(req, res, next) {
     try {
         // Remove a palavra 'Bearer' se ela vier junto com o token
         const tokenLimpo = token.split(" ")[1] || token;
-        
+
         // Valida o token usando a chave secreta definida no arquivo .env
         const decodificado = jwt.verify(tokenLimpo, process.env.JWT_SECRET);
-        
+
         // Salva o ID do usuário na requisição para que as rotas seguintes saibam quem ele é
         req.usuarioId = decodificado.id;
         
